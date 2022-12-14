@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>desc-app</title>
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container-fluid px-4 py-3">
+    <div class="row">
+        <div class="col-12 mb-4">
+            <h1>Información del usuario</h1>
+        </div>
+        <div class="col-5 mb-3">
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label for="user-name" class="form-label">Nombre</label>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" id="user-name">
+                </div>
+            </div>
+        </div>
+        <div class="col-7 mb-3">
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label for="user-email" class="form-label">Email</label>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" id="user-email">
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mb-3">
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label for="user-role" class="form-label">Rol</label>
+                </div>
+                <div class="col-4">
+                    <input type="text" class="form-control" id="user-role">
+                </div>
+            </div>
+        </div>
+        <div class="col-12 my-4">
+            <h2>Información de la sucursal</h2>
+        </div>
+        <div class="col-12 mb-3">
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label for="branch-name" class="form-label">Nombre</label>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" id="branch-name">
+                </div>
+            </div>
+        </div>
+        <div class="col-5 mb-3">
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label for="branch-city" class="form-label">Ciudad</label>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" id="branch-city">
+                </div>
+            </div>
+        </div>
+        <div class="col-7 mb-3">
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label for="branch-state" class="form-label">Estado</label>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" id="branch-state">
+                </div>
+            </div>
+        </div>
+        <div class="col-12 px-2">
+            <hr />
+        </div>
+        <div class="col-12 my-4">
+            <h2>Configuración</h2>
+        </div>
+        <div class="col-12 mb-3">
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label for="dir-path" class="form-label">Ruta de la carpeta</label>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" id="dir-path">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const {ipcRenderer} = require('electron');
+    const Swal = require('sweetalert2');
+    const inputUserName = document.getElementById('user-name');
+    const inputUserEmail = document.getElementById('user-email');
+    const inputUserRole = document.getElementById('user-role');
+    const inputBranchName = document.getElementById('branch-name');
+    const inputBranchCity = document.getElementById('branch-city');
+    const inputBranchState = document.getElementById('branch-state');
+    const inputDirPath = document.getElementById('dir-path');
+
+    ipcRenderer.on('variable-reply', function (event, args) {
+        console.log(args);
+        inputDirPath.value = args.dirPath;
+        inputUserName.value = args.user.name;
+        inputUserEmail.value = args.user.email;
+        inputUserRole.value = args.user.role;
+        inputBranchName.value = args.user.branch.name;
+        inputBranchCity.value = args.user.branch.city;
+        inputBranchState.value = args.user.branch.state;
+    });
+
+    ipcRenderer.send('variable-request');
+
+    ipcRenderer.on('toast', (e, args) => {
+        Swal.fire(args)
+    });
+
+    ipcRenderer.on('dir:path', (e, args) => {
+        inputDirPath.value = args;
+    });
+
+    ipcRenderer.on('user:logged', (e, args) => {
+        console.log(args)
+        inputUserName.value = args.name;
+        inputUserEmail.value = args.email;
+        inputUserRole.value = args.role;
+        inputBranchName.value = args.branch.name;
+        inputBranchCity.value = args.branch.city;
+        inputBranchState.value = args.branch.state;
+    });
+</script>
+<script>require('popper.js');</script>
+<script>require('bootstrap');</script>
+</body>
+</html>

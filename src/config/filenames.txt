@@ -1,0 +1,41 @@
+D:\Users\Dev\Documents\EjemploOCR\desc-app\watcher\Image_12122022154012001.png was created
+File D:\Users\Dev\Documents\EjemploOCR\desc-app\watcher\Image_12122022154012001.png has been send to request
+200
+{
+  code: 436,
+  filename: 'Image_12122022154012001.png',
+  description: 'File already exists'
+}
+D:\Users\Dev\Documents\EjemploOCR\desc-app\watcher\Image_12122022154014001.png was created
+File D:\Users\Dev\Documents\EjemploOCR\desc-app\watcher\Image_12122022154014001.png has been send to request
+200
+{
+  code: 436,
+  filename: 'Image_12122022154014001.png',
+  description: 'File already exists'
+}
+D:\Users\Dev\Documents\EjemploOCR\desc-app\watcher\Image_12122022154016001.png was created
+File D:\Users\Dev\Documents\EjemploOCR\desc-app\watcher\Image_12122022154016001.png has been send to request
+200
+{
+  code: 436,
+  filename: 'Image_12122022154016001.png',
+  description: 'File already exists'
+}
+D:\Users\Dev\Documents\EjemploOCR\desc-app\watcher\Image_12122022154016002.png was created
+File D:\Users\Dev\Documents\EjemploOCR\desc-app\watcher\Image_12122022154016002.png has been send to request
+200
+{
+  code: 436,
+  filename: 'Image_12122022154016002.png',
+  description: 'File already exists'
+}
+D:\Users\Dev\Documents\EjemploOCR\desc-app\watcher\Image_12122022154017001.png was created
+File D:\Users\Dev\Documents\EjemploOCR\desc-app\watcher\Image_12122022154017001.png has been send to request
+200
+{
+  code: 436,
+  filename: 'Image_12122022154017001.png',
+  description: 'File already exists'
+}
+

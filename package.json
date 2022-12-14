@@ -1,0 +1,23 @@
+{
+  "name": "desc-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.2.0",
+    "bootstrap": "^5.2.3",
+    "electron": "^21.3.0",
+    "electron-reload": "^2.0.0-alpha.1",
+    "form-data": "^4.0.0",
+    "hound": "^1.0.5",
+    "popper.js": "^1.16.1",
+    "request": "^2.88.2",
+    "sweetalert2": "^11.6.14"
+  }
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>desc-app</title>
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container-fluid px-4 py-3 vh-100 d-flex align-items-center justify-content-center">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body container-fluid">
+                    <h2 class="text-center">Iniciar Sesión</h2>
+                    <form class="row g-3">
+                        <div class="col-12">
+                            <label for="login-username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="login-username" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="login-password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="login-password" required>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-primary" type="submit">Iniciar Sesión</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const {ipcRenderer} = require('electron');
+    const Swal = require('sweetalert2');
+    const axios = require('axios');
+
+    ipcRenderer.on('toast', (e, args) => {
+        Swal.fire(args)
+    });
+
+
+    const form = document.querySelector('form');
+    form.addEventListener('submit', e => {
+        const username = document.querySelector('#login-username').value;
+        const password = document.querySelector('#login-password').value;
+
+        const user = {
+            email: username,
+            pwd: password
+        }
+
+        axios.post('http://localhost:8000/login', user).then(response => {
+            if (response.data.hasOwnProperty('error')) {
+                Swal.fire({
+                    title: 'error',
+                    text: 'Hubo un error al iniciar sesión',
+                    icon: 'error'
+                })
+            } else if (response.data.hasOwnProperty('success')) {
+                Swal.fire({
+                    title: 'Success',
+                    text: 'Usuario logueado exitosamente',
+                    icon: 'success'
+                });
+                setTimeout(function () {
+                    ipcRenderer.send('user:info', response.data.info.user);
+                }, 2500);
+            }
+        }).catch(error => {
+            console.log(error)
+            if (error.response.hasOwnProperty('data')) {
+                Swal.fire({
+                    title: 'error',
+                    text: error.response.data.error.description,
+                    icon: 'error'
+                })
+            }
+        });
+        e.preventDefault();
+    })
+</script>
+<script>require('popper.js');</script>
+<script>require('bootstrap');</script>
+</body>
+</html>
