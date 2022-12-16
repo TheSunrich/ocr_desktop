@@ -174,16 +174,10 @@ function createWatcher() {
     watcher.on('create', (path, stats) => {
         console.log(path + ' was created');
         let ext = path.split('.').at(-1);
-        const userInfo = decrypt()
-        if (userInfo) {
-            console.log('Usuario no identificado');
-            return;
-        }
         if (ext !== 'jpg' && ext !== 'png' && ext !== 'jpeg' && ext !== 'pdf') {
             console.log('Archivo no válido');
             return;
         }
-
         list.enqueue(path);
         send();
     });
@@ -192,20 +186,28 @@ function createWatcher() {
 
 function pause(milliseconds) {
     var dt = new Date();
-    while ((new Date()) - dt <= milliseconds) { /* Do nothing */ }
+    while ((new Date()) - dt <= milliseconds) { /* Do nothing */
+    }
 }
 
 function send() {
-    console.log('send called')
+    if(!b && list.isEmpty()){
+        mainWindow.webContents.send('toast', {
+            title: 'Archivos Cargados',
+            text: 'Los archivos fueron cargados exitosamente.',
+            icon: 'success',
+        });
+    }
     if (b || list.isEmpty() || !isLogged()) {
         return;
     }
+    console.log('send called')
     b = true;
 
     let userInfo = JSON.parse(decrypt(fs.readFileSync(appInfoPath).toString()));
     const form = new FormData();
     let path = list.dequeue();
-    pause(5000);
+    pause(3000);
     form.append('file', fs.createReadStream(path), Path.posix.basename(path));
     console.log('File', path, 'has been send to request');
     axios.post(`http://localhost:8000/upload/${userInfo.idBranch}/${userInfo.id}/upload_files`, form, {
@@ -216,10 +218,7 @@ function send() {
             console.log(response.data);
         }
     }).catch(error => {
-        if (error.response.response.status >= 400 && error.response.response.status < 500) {
-            console.log('Error');
-            console.log(error.response.response.data);
-        }
+        console.log(error);
     }).finally(() => {
         b = false;
         send();
